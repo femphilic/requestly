@@ -1,0 +1,14 @@
+# pesde
+/*_packages
+/.pesde
+pesde.lock
+pesde.toml
+
+# Wally
+/Packages
+/ServerPackages
+/DevPackages
+wally.lock
+
+# Rojo
+sourcemap.json

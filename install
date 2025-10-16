@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Install packages
+case "$1" in
+  roblox)
+    echo "Installing Roblox packages from pesde..."
+    mv pesde-roblox.toml pesde.toml
+    pesde install
+    mv pesde.toml pesde-roblox.toml
+    echo "Installed Roblox packages from pesde!"
+    # Install packages from Wally
+    # Wally is Roblox-specific, so we don't need to do a bunch of moving around; we can just publish!
+    echo "Installing packages from Wally..."
+    wally install
+    echo "Installed packages from Wally!"
+    ;;
+  lune)
+    echo "Installing lune packages from pesde..."
+    mv pesde-lune.toml pesde.toml
+    pesde install
+    mv pesde.toml pesde-lune.toml
+    echo "Installed lune packages from pesde!"
+    ;;
+  *)
+    ;;
+esac

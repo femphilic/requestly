@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Publish packages to pesde
+# Publish Roblox package to pesde
+echo "Publishing Roblox package to pesde..."
+./install roblox
+mv pesde-roblox.toml pesde.toml
+pesde publish
+mv pesde.toml pesde-roblox.toml
+echo "Published Roblox package to pesde!"
+
+# Publish lune package to pesde
+echo "Publishing lune package to pesde..."
+./install lune
+mv pesde-lune.toml pesde.toml
+pesde publish
+mv pesde.toml pesde-lune.toml
+echo "Published lune package to pesde!"
+
+# Publish package to Wally
+# Wally is Roblox-specific, so we don't need to do a bunch of moving around; we can just publish!
+echo "Publishing package to Wally..."
+wally publish
+echo "Published package to Wally!"
