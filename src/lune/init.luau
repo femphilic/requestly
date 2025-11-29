@@ -12,10 +12,7 @@ function requestly.encodeUrl(url)
 	return net.urlEncode(url, false)
 end
 
-export type JSONAcceptable = string | number | boolean | nil | { JSONAcceptable } | { [string]: JSONAcceptable }
-export type JSONObject = { JSONAcceptable } | { [string]: JSONAcceptable }
-
-function requestly.decodeJson<T>(jsonString: string, validation: (T & JSONObject)?): T & JSONObject
+function requestly.decodeJson<T>(jsonString: string, validation: T?): T
 	local json = serde.decode("json", jsonString)
 	if validation then
 		local gtValidation = GreenTea.isGreenTeaType(validation) and (validation :: any) :: GreenTea.Type
@@ -25,7 +22,7 @@ function requestly.decodeJson<T>(jsonString: string, validation: (T & JSONObject
 	return json
 end
 
-function requestly.encodeJson<T>(json: T & JSONObject): string
+function requestly.encodeJson<T>(json: T): string
 	return serde.encode("json", json, false)
 end
 
@@ -39,8 +36,6 @@ export type RequestHeaderValue = string | { string }
 export type RequestHeaders = {
 	[RequestHeaderKey]: RequestHeaderValue,
 }
-
-export type JSONResponse = JSONObject | string
 
 export type RequestCompression = "gzip" | "none"
 
@@ -62,8 +57,6 @@ export type RequestOptions =
 		jsonDecode: boolean?,
 	}
 
-export type ResponseBody = JSONAcceptable | string
-
 export type ResponseHeaderKey = string
 export type ResponseHeaderValue = string
 
@@ -77,13 +70,13 @@ export type ResponseStatus = {
 }
 
 export type Response<T> = {
-	body: T & (ResponseBody?),
+	body: T,
 	headers: ResponseHeaders,
 	status: ResponseStatus,
 	success: boolean,
 }
 
-function requestly:request<T>(opts: RequestOptions, validation: (T & JSONResponse)?): Response<T>
+function requestly:request<T>(opts: RequestOptions, validation: T?): Response<T>
 	local jsonDecode = opts.jsonDecode or false
 	local method = opts.method or "GET"
 	local compress = opts.compress or "gzip" :: RequestCompression
@@ -122,7 +115,7 @@ function requestly:request<T>(opts: RequestOptions, validation: (T & JSONRespons
 			print("[requestly] JSON decoding failed validation")
 			return self.decodeJson(httpRes.body)
 		end)
-		res.body = decoded
+		res.body = decoded :: T
 		res.success = success
 	end
 
@@ -154,9 +147,9 @@ requestly.GreenTea = {
 
 export type Requestly = {
 	encodeUrl: (url: string) -> string,
-	decodeJson: <T>(jsonString: string, validation: (T & JSONObject)?) -> T & JSONObject,
-	encodeJson: <T>(json: T & JSONObject) -> string,
-	request: <T>(self: Requestly, opts: RequestOptions, validation: (T & JSONResponse)?) -> Response<T>,
+	decodeJson: <T>(jsonString: string, validation: T?) -> T,
+	encodeJson: <T>(json: T) -> string,
+	request: <T>(self: Requestly, opts: RequestOptions, validation: T?) -> Response<T>,
 	GreenTea: {
 		isGreenTeaType: typeof(GreenTea.isGreenTeaType),
 		isGtType: typeof(GreenTea.isGtType),

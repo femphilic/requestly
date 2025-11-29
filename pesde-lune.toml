@@ -1,5 +1,5 @@
 name = "femphilic/requestly"
-version = "0.2.1"
+version = "0.2.2"
 description = "An open-source library for making type-safe requests in Luau."
 authors = ["femphilic <femphilic.com@gmail.com> (https://femphilic.com)"]
 repository = "https://github.com/femphilic/requestly"
@@ -15,4 +15,4 @@ default = "https://github.com/pesde-pkg/index"
 
 [engines]
 pesde = "^0.7.0"
-lune = "^0.10.2"
+lune = "^0.10.4"
