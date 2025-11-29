@@ -14,6 +14,6 @@ include = [
   "LICENSE",
   "README.md",
 ]
-version = "0.2.1"
+version = "0.2.2"
 registry = "https://github.com/UpliftGames/wally-index"
 realm = "server"
